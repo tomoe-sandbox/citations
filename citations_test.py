@@ -2,8 +2,8 @@ import builtins
 import importlib
 import io
 import sys
-# def test_PA0(monkeypatch, capfd):
-#     PA0.main()
+# def test_citations(monkeypatch, capfd):
+#     citations.main()
 #     monkeypatch.setattr('builtins.input', lambda _: "A v B [2020] 3 SLR 322")
 #     monkeypatch.setattr('builtins.input', lambda _: "Quit")
 #     out, err = capfd.readouterr()
@@ -31,9 +31,9 @@ def test_input_exists(capsys):
     user_input = ("\n", "Quit")
     gen = input_generator(user_input)
     mock_input = make_mock_input(gen)
-    sys.modules.pop('PA0', None)
+    sys.modules.pop('citations', None)
     sys.stdin = io.StringIO("\n" + "Quit") # lmao
-    import PA0
+    import citations
     out, err = capsys.readouterr()
 
     assert "Please input your complete case citation here, Quit to exit: " * 2 in out # Note that prompt will be asked twice (newline, and Quit)
@@ -43,8 +43,8 @@ def test_input_parse(monkeypatch, capsys):
     gen = input_generator(user_input) # create the generator from your input values
     mock_input = make_mock_input(gen)
     monkeypatch.setattr("builtins.input", mock_input)
-    sys.modules.pop('PA0', None)
-    import PA0
+    sys.modules.pop('citations', None)
+    import citations
     out, err = capsys.readouterr()
     assert "A v B, [2020] 3 SLR 322\n" in out # We use this instead of checking for equality as there may be other outputs
     # https://www.freecodecamp.org/news/python-new-line-and-how-to-python-print-without-a-newline/ - Python adds a new line character at the end of a string as the default value of the end parameter of print() is \n.
@@ -56,12 +56,10 @@ def test_citation_array(monkeypatch, capsys):
     gen = input_generator(user_input) # create the generator from your input values
     mock_input = make_mock_input(gen)
     monkeypatch.setattr("builtins.input", mock_input)
-    sys.modules.pop('PA0', None)
-    import PA0
+    sys.modules.pop('citations', None)
+    import citations
     out, err = capsys.readouterr()
-    assert out == "A v B, [2020] 3 SLR 322\nB v C, [2019] 4 SLR 344\n['A v B', 'B v C']\n['[2020] 3 SLR 322', '[2019] 4 SLR 344']\n" # We use this instead of checking for equality as there may be other outputs
-    # https://www.freecodecamp.org/news/python-new-line-and-how-to-python-print-without-a-newline/ - Python adds a new line character at the end of a string as the default value of the end parameter of print() is \n.
-
+    assert out == "A v B, [2020] 3 SLR 322\nB v C, [2019] 4 SLR 344\n['A v B', 'B v C']\n['[2020] 3 SLR 322', '[2019] 4 SLR 344']\n"
 
 
 # def test_input_parsed(capsys, monkeypatch):
@@ -72,8 +70,8 @@ def test_citation_array(monkeypatch, capsys):
 
 #         m.setattr(sys, "stdout", mocked_stdout)
    
-#         sys.modules.pop('PA0', None)
-#         importlib.import_module(name="PA0", package="citations")
+#         sys.modules.pop('citations', None)
+#         importlib.import_module(name="citations", package="citations")
 #         m.setattr(builtins, "input", lambda prompt="": "Quit") 
 #     assert mocked_stdout.getvalue().strip() == "A v B, [2020] 3 SLR 322"
 
@@ -82,7 +80,7 @@ def test_citation_array(monkeypatch, capsys):
 
 Notes:
 
-test_PA0 works when it is a straightforward 
+test_citations works when it is a straightforward 
     user_input = input("Please input your complete case citation here, Quit to exit: ")
     print(user_input*10)
 situation.
